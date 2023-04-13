@@ -6,4 +6,4 @@ export const hashPassword = (password) =>
 
     /**retorna verdadeiro ou falso se a senha existe no banco de dados */
 export const comparePassword = (password, hash) => 
-    bcryptjs.comparePassword(password, hash)
+    bcryptjs.compareSync(password, hash)
