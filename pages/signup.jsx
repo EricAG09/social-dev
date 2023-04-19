@@ -7,6 +7,7 @@ import H2 from "../src/componentes/tipografia/H2"
 import H4 from "../src/componentes/tipografia/H4"
 import Button from "../src/componentes/inputs/Button"
 import Input from "../src/componentes/inputs/Input"
+import { useState } from "react"
 
 const FormContainer = styled.div`
     margin-top: 60px;
@@ -23,19 +24,36 @@ const Text = styled.p`
 `
 
 function SignupPage () {
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [user, setUser] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const handleForm = (event) => {
+        event.preventDefault()
+        console.log({
+            firstName,
+            lastName,
+            user,
+            email,
+            password
+        })
+    }
+
     return (
         <ImageWithSpace>
             <H1># Social Dev</H1>
             <H4>Tudo que acontece no mundo dev, está aqui!</H4>
             <FormContainer>
                 <H2>Crie sua Conta</H2>
-                <Form>
-                    <Input label="Nome" />
-                    <Input label="Sobrenome" />
-                    <Input label="Usuário" />
-                    <Input label="Email ou Usuário" type="email" />
-                    <Input label="Senha" type="password" />
-                    <Button>Entrar</Button>
+                <Form onSubmit={handleForm}>
+                    <Input label="Nome" onChange={({target}) => {setFirstName(target.value)}} />
+                    <Input label="Sobrenome" onChange={({target}) => setLastName(target.value)} />
+                    <Input label="Usuário" onChange={({target}) => setUser(target.value)} />
+                    <Input label="Email" type="email" onChange={({target}) => setEmail(target.value)} />
+                    <Input label="Senha" type="password" onChange={({target}) => setPassword(target.value)}/>
+                    <Button onClick={handleForm}>Cadastrar</Button>
                 </Form>
                 <Text>Já possui uma conta?<Link href="/login">Faça seu Login</Link></Text>
             </FormContainer>
