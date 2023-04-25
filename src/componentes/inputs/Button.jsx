@@ -16,7 +16,7 @@ const Button = styled.button`
     }
 
     :disabled {
-        backgrond-color: grey;
+        background-color: grey;
     }
 `
 

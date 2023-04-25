@@ -17,8 +17,9 @@ const StyledInput = styled.input`
     box-sizing: border-box;
     border-radius: 10px;
 
-    ${props => props.error && `border: 2px solid color: red;`}
-    $:focus {
+    ${props => props.error && `border: 2px solid ${props.theme.error};`}
+
+    &:focus{
         outline: none;
     }
 `
@@ -34,7 +35,7 @@ const errorMessage = {
     'string.email': 'digite um email válido'
 }
 
-const Input = forwardRef(({label,error,  ...props}, ref) => {
+const Input = forwardRef(({label, error,  ...props}, ref) => {
     console.log(error)
     return (
         <InputContainer>
