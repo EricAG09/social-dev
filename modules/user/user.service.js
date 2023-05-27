@@ -15,17 +15,20 @@ export const signupUser = async (body) =>  {
     }
 }
 export const login = async (body) => {
+    console.log(body)
     try{
         const user = await User.findOne({
-            $Or: [
-                {email: body.userOnemail},
-                {user: body.userOnemail}
+            $or: [
+                {email: body.userOrEmail},
+                {user: body.userOrEmail}
             ]
-        })
+        }) 
+        console.log(user)
         
         if(!user) throw new Error('not found')
         const passwordIsCorrect = comparePassword(body.password, user.password)
         if(!passwordIsCorrect) throw new Error('password incorrect')
+        
         
         return user
     }catch (err) {
