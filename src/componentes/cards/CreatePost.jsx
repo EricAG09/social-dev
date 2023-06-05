@@ -1,8 +1,14 @@
 import styled from "styled-components"
+import { useForm } from "react-hook-form"
+import { joiResolver } from '@hookform/resolvers/joi'
+import {createPostSchema} from "../../../modules/post/post.schema"
+import axios from "axios"
+import { useSWRConfig } from "swr"
 
 import H4 from "../tipografia/H4"
-import TextArea from "../inputs/TextArea"
+import ControllerTextarea from "../inputs/ControllerTextArea"
 import Button from "../inputs/Button"
+import { useSWRconfig } from "swr"
 
 const PostContainer = styled.div`
     background-color: white;
@@ -35,16 +41,38 @@ const BottomText = styled.p`
 `
 
 function CreatePost ({username}) {
+    const { mutate } = useSWRConfig()
+    const { control, handleSubmit, formState: {isValid}, reset} = useForm ({
+        resolver: joiResolver(createPostSchema),
+        mode: 'all'
+    })
+
+    const onSubmit = async (data) => {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/post`, data)
+        if (response.status === 201) {
+            reset()
+            mutate(`${process.env.NEXT_PUBLIC_API_URL}/api/post`)
+        }
+    }
+
     return (
         <PostContainer>
             <H4><Title>No que você está pensando, @{username}?</Title></H4>
-            <TextContainer>
-                <TextArea placeholder="Digite sua mensagem" rows="4"/>
-            </TextContainer>
-            <BottomContainer>
-                <BottomText>A sua mensagem será pública.</BottomText>
-                <Button>Enviar Mensagem</Button> 
-            </BottomContainer>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <TextContainer>
+                    <ControllerTextarea
+                     placeholder="Digite sua mensagem" 
+                     rows="4"
+                     control={control}
+                     name = "text"
+                     maxlength = "256"
+                     />
+                </TextContainer>
+                <BottomContainer>
+                    <BottomText>A sua mensagem será pública.</BottomText>
+                    <Button disabled={!isValid}>Postar Mensagem</Button> 
+                </BottomContainer>
+            </form>
         </PostContainer>
     )
 }

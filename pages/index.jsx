@@ -52,9 +52,6 @@ function HomePage ({user}) {
           <LastPostText>
             <H3>Ultimas Postagens:</H3>
           </LastPostText>
-          <RefreshPostsContainer>
-          <RefreshPosts>Carregar ultimas postagens</RefreshPosts>
-          </RefreshPostsContainer>
           <PostContainer>
             {
               data?.map(post => 
