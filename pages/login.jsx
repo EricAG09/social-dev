@@ -5,7 +5,7 @@ import {joiResolver} from "@hookform/resolvers/joi"
 import axios from "axios"
 import { useRouter } from "next/router"
 
-import ImageWithSpace from "../src/componentes/layout/imageWithSpace"
+import ImageWithSpace from "../src/componentes/layout/ImageWithSpace"
 import H1 from "../src/componentes/tipografia/H1"
 import H2 from "../src/componentes/tipografia/H2"
 import H4 from "../src/componentes/tipografia/H4"

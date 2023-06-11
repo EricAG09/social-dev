@@ -1,5 +1,5 @@
 import { useController } from "react-hook-form";
-import Textarea from "./Textarea"
+import Textarea from "./TextArea"
 
 const ControllerTextaera = ({name, control, defaultValue="", ...props}) => {
     const { 

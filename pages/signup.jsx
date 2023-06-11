@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import Link from "next/link"
 
-import ImageWithSpace from "../src/componentes/layout/imageWithSpace"
+import ImageWithSpace from "../src/componentes/layout/ImageWithSpace"
 import H1 from "../src/componentes/tipografia/H1"
 import H2 from "../src/componentes/tipografia/H2"
 import H4 from "../src/componentes/tipografia/H4"
