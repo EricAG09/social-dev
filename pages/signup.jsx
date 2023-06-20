@@ -12,6 +12,7 @@ import {joiResolver} from '@hookform/resolvers/joi'
 import { signupSchema } from "../modules/user/user.schema"
 import axios from "axios"
 import { useRouter } from "next/router"
+import { useState } from "react"
 
 const FormContainer = styled.div`
     margin-top: 60px;
@@ -33,18 +34,24 @@ function SignupPage () {
         resolver: joiResolver(signupSchema)
     })
 
+    const [loading, setLoading] = useState(false)
+
     const handleForm = async (data) => {
+        setLoading(true)
         try{
             const { status } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user/Signup`, data)
             if (status === 201) {
                 router.push('/')
             }
+            setLoading(true)
         } catch (err) {
             if (err.response.data.code === 11000 ){
                 setError (err.response.data.duplicatedKey, {
                      type: 'duplicated' 
                 })
             }
+        } finally {
+            setLoading(false)
         }
         
     }
@@ -61,7 +68,7 @@ function SignupPage () {
                     <Input label="Usuário" name='user' control={control}/>
                     <Input label="Email" type="email" name='email' control={control}/>
                     <Input label="Senha" type="password" name='password' control={control}/>
-                    <Button type='submit' disabled={Object.keys(errors).length > 0}>Cadastrar</Button>
+                    <Button loading={loading} type='submit' disabled={Object.keys(errors).length > 0}>Cadastrar</Button>
                 </Form>
                 <Text>Já possui uma conta?<Link href="/login">Faça seu Login</Link></Text>
             </FormContainer>

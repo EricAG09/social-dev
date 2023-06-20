@@ -4,6 +4,7 @@ import {useForm} from "react-hook-form"
 import {joiResolver} from "@hookform/resolvers/joi"
 import axios from "axios"
 import { useRouter } from "next/router"
+import { useState } from "react"
 
 import ImageWithSpace from "../src/componentes/layout/ImageWithSpace"
 import H1 from "../src/componentes/tipografia/H1"
@@ -27,18 +28,25 @@ const Text = styled.p`
     text-align: center;
 `
 
+const fetcher = url => axios.get(url).then(res => res.data)
+
 function Login () {
     const router = useRouter()
+    
     const {control, handleSubmit, formState: {errors}, setError} = useForm({
         resolver: joiResolver(loginSchema)
     })
 
+    const [loading, setLoading] = useState(false)
+
     const onSubmit = async (data) => {
+        setLoading(true)
         try{
             const { status } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user/login`, data)
             if (status === 200) {
                 router.push("/")
             }
+            setLoading(true)
         } catch ({response}) {
             if (response.data === 'password incorrect') {
                 setError('password', {
@@ -50,6 +58,8 @@ function Login () {
                     message: 'usuário não encontrado.'
                 })
             }
+        } finally{
+            setLoading(false)
         }
     }
 
@@ -62,7 +72,7 @@ function Login () {
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <Input label="Email ou Usuário" name="userOrEmail" control={control}/>
                     <Input label="Senha" type="password" name="password" control={control}/>
-                    <Button type='submit' disabled={Object.keys(errors).length > 0}>Entrar</Button>
+                    <Button loading={loading} type='submit' disabled={Object.keys(errors).length > 0}>Entrar</Button>
                 </Form>
                 <Text>Não possui uma conta?<Link href="/signup">Faça seu cadastro</Link></Text>
             </FormContainer>
