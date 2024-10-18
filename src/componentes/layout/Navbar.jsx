@@ -17,6 +17,7 @@ const StyledLogo = styled.span`
     flex: 1;
     font-weight: bold;
     font-size: 20px;
+    cursor: pointer;
 `
 const StyledLogout = styled.a`
     cursor: pointer;
@@ -32,7 +33,7 @@ function Navbar () {
 
     return (
         <StyledNavbar>
-            <StyledLogo># Social Dev</StyledLogo>
+            <StyledLogo><img src={iconUser}/> </StyledLogo>
             <div><StyledLogout onClick={handleLogout}>Desconectar</StyledLogout></div>
         </StyledNavbar>
     )

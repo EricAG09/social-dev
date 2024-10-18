@@ -68,6 +68,7 @@ function HomePage ({user}) {
           </PostContainer>
         </Container>
       </Content>
+      
     </>
   )
 }

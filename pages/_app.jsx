@@ -1,7 +1,9 @@
 import { useEffect } from "react"
 import { createGlobalStyle, ThemeProvider } from "styled-components"
+import { ToastContainer, toast } from 'react-toastify';
 import moment from "moment"
 import 'moment/locale/pt-br'
+import 'react-toastify/dist/ReactToastify.css';
 
 import theme from "../src/theme"
 
@@ -32,15 +34,23 @@ a:hover{
 
 function App ({ Component, pageProps }) {
 
+  const notify = () => toast("Wow so easy!");
+
   useEffect(() => {
     moment.locale('pt-br')
   }, [])
 
   return (
+    <>
     <ThemeProvider theme={theme}>
     <GlobalStyle />
     <Component {...pageProps} />
     </ThemeProvider>
+    <div>
+      <button onClick={notify}>Notify!</button>
+      <ToastContainer />
+    </div>
+    </>
   )
 }
 
